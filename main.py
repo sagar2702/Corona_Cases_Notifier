@@ -11,26 +11,26 @@ if __name__ == "__main__":
     while(1):
         data = requests.get('https://www.mohfw.gov.in/')
         soup = BeautifulSoup(data.text, "html.parser")
-        tr =soup.find_all("tbody")
+        #tr =soup.find_all("tbody")
         # notifyMe("Alert!!", "check")
-        str=""
-        for x in tr:
-            str+=x.text
+        #str=""
+        #for x in tr:
+        #   str+=x.text
         #print(str)
-        infoList=str.split('\n\n')
+        #infoList=str.split('\n\n')
         # print(infoList)
         #print(len(infoList))
-        x=len(infoList)
+        #x=len(infoList)
         #storing last row
-        last_row=infoList[x-5:]
+        #last_row=infoList[x-5:]
         #print(last_row)
-        last_row_col_1=last_row[0].split('\n')[2]
-        last_row_col_2=last_row[1]
-        last_row_col_3 = last_row[2].split('\n')[1]
-        #last_row_col_4 = last_row[3].split('\n')[1]
-        #print(last_row_col_1,last_row_col_2, last_row_col_3, last_row_col_4)
-        #detail="Indian confirmed cases  : {}\nForeigner confirmed cases: {}\nCured : {}\nDeath : {}".format(last_row_col_1,last_row_col_2,last_row_col_3,last_row_col_4)
-        detail="Total confirmed cases  : {}\nCured : {}\nDeath : {}".format(last_row_col_1,last_row_col_2,last_row_col_3)
-
+        #this will also do [active=soup.select_one("li.bg-blue > strong")]
+        active=soup.find("li",{"class":"bg-blue"}).find('strong')
+        cure=soup.find("li",{"class":"bg-green"}).find('strong')
+        death=soup.find("li",{"class":"bg-red"}).find('strong')
+        #print(active.text,cure.text,death.text)
+        total=int(active.text)+int(cure.text)+int(death.text)
+        #print(total)
+        detail="Active cases : {}\nCured : {}\nDeaths : {}\nTotal confirmed cases  : {}".format(active.text,cure.text,death.text,total)
         notifyMe("CORONA'S EFFECT SO FAR IN INDIA", detail)
         time.sleep(30)
